@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "web_server_cluster" {
-  source         = "git::ssh://git@stash.dev.carelogistics.com/~mcollins/tlos-modules.git//services/web-cluster"
+  source         = "git::ssh://git@r"
 
   cluster_name   = "TEST-NAME"                #ENTER CUSTOMER NAME HERE
 

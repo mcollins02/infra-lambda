@@ -17,7 +17,7 @@ pipeline {
         stage('ApplicationInit'){
           steps {
                   dir("/var/lib/jenkins/workspace/") {
-                    sh "git clone ssh://tlos-customers.git ${params.CLUSTER_NAME}"
+                    sh "git clone ssh://git@st ${params.CLUSTER_NAME}"
                     sh "cd ${params.CLUSTER_NAME} && terraform init -input=false"
 
                   }
