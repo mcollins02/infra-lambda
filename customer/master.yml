@@ -1,0 +1,23 @@
+- hosts: all
+  become: true
+
+  vars:
+    dns_entry: "{{ dns }}"
+
+  tasks:
+
+    - name: Configure privkey.pem
+      lineinfile: dest=/etc/nginx/nginx.conf
+                  regexp='^(.*)#ssl_certificate_key(.*)$'
+                  line="    ssl_certificate_key /etc/letsencrypt/live/{{ dns }}/privkey.pem;"
+
+    - name: Configure fullchain.pem
+      lineinfile: dest=/etc/nginx/nginx.conf
+                  regexp='^(.*)#ssl_certificate(.*)$'
+                  line="    ssl_certificate /etc/letsencrypt/live/{{ dns }}/fullchain.pem;"
+
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

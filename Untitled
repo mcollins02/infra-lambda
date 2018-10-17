@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+  tools {
+      "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform0.11.8"
+  }
+  parameters {
+      string(name: 'CLUSTER_NAME', defaultValue: '', description: 'Name of Customer')
+      string(name: 'CUSTOMER_IP', defaultValue: '0.0.0.0/0', description:'IP address for customer access')
+      string(name: 'CUSTOMER_DNS', defaultValue: '', description: 'URL to assign the customer TLOS application')
+  }
+  environment {
+      TF_HOME = tool('terraform0.11.8')
+      TF_IN_AUTOMATION = "true"
+      PATH = "$TF_HOME:$PATH"
+  }
+  stages {
+    stage('ApplicationInit'){
+        steps {
+            dir('/tmp/'){
+                sh "git clone ssh://git@stash.dev.carelogistics.com/~mcollins/tlos-customers.git ${params.CLUSTER_NAME}"
+                sh "mkdir /tmp/${params.CLUSTER_NAME}"
+                sh "cd /tmp/${params.CLUSTER_NAME}"
+                sh "terraform init -input=false"
+                sh "echo \$PWD"
+                sh "whoami"
+            }
+        }
+    }
+  }
+}
