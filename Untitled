@@ -17,7 +17,7 @@ pipeline {
     stage('ApplicationInit'){
         steps {
             dir('/tmp/'){
-                sh "git clone ssh://git@stash.dev.carelogistics.com/~mcollins/tlos-customers.git ${params.CLUSTER_NAME}"
+                sh "git clone ssh://t ${params.CLUSTER_NAME}"
                 sh "mkdir /tmp/${params.CLUSTER_NAME}"
                 sh "cd /tmp/${params.CLUSTER_NAME}"
                 sh "terraform init -input=false"
